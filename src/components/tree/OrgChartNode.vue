@@ -1,22 +1,73 @@
 <template>
   <div class="org-chart-node">
-    <div class="org-chart-node-label">
+    <div
+      class="org-chart-node-label" 
+      @click="clickNode">
       {{ node.label }}
     </div>
     <div class="org-chart-node-children" v-if="node.children.length > 0">
-      <OrgChartNode v-for="(childNode, index) in node.children" :key="index" :node="childNode"></OrgChartNode>
+      <OrgChartNode
+        v-for="(childNode, index) in node.children"
+        :key="index"
+        :node="childNode"
+      ></OrgChartNode>
     </div>
+    <Modal
+      v-model="isShowModal"
+      title="选择节点类型"
+      @on-ok="ok"
+      @on-cancel="cancel"
+    >
+      <RadioGroup v-model="nodeType" vertical>
+        <Radio label="team">
+            <span>团队</span>
+        </Radio>
+        <Radio label="direction">
+            <span>方向</span>
+        </Radio>
+        <Radio label="member">
+            <span>成员</span>
+        </Radio>
+    </RadioGroup>
+    </Modal>
+    <addTeam v-model="isTeamshow"></addTeam>
   </div>
 </template>
 
 <script>
+import addTeam from '../addedit/addTeam'
+
 export default {
   name: 'OrgChartNode',
+  data () {
+    return {
+      isShowModal: false,
+      isTeamshow: false,
+      nodeType: ''
+    }
+  },
   components: {
+    addTeam
   },
   props: {
     node: {
       required: true
+    }
+  },
+  methods: {
+    clickNode: function (event) {
+      this.isShowModal = true
+    },
+    ok () {
+      this.$Message.info('Clicked ok')
+      console.log(this.nodeType)
+      this.addChildren(this.nodeType)
+    },
+    cancel () {
+      this.$Message.info('Clicked cancel')
+    },
+    addChildren: function (nodeType) {
+      console.log(nodeType + "添加子节点")
     }
   }
 }

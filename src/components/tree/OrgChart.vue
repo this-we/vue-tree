@@ -21,6 +21,9 @@ export default {
     treeData: {
       required: true
     }
+  },
+  methods: {
+    
   }
   // ,
   // methods: {
