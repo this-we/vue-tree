@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nodeTree :treeData='testData'></nodeTree>
+    <nodeTree :treeData='testData' ref='helloworld'></nodeTree>
   </div>
 </template>
 <script>
@@ -9,6 +9,14 @@ import nodeTree from './tree/OrgChart'
 export default {
   components: {
     nodeTree
+  },
+  provide: {
+    nodeObj: { value: 'hhhh' }
+  },
+  watch: {
+    nodeObj () {
+      alert('123')
+    }
   },
   data () {
     return {

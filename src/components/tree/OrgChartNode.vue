@@ -1,6 +1,6 @@
 <template>
   <div class="org-chart-node">
-    <div class="org-chart-node-label">
+    <div class="org-chart-node-label" @click='handleNode'>
       {{ node.label }}
     </div>
     <div class="org-chart-node-children" v-if="node.children.length > 0">
@@ -14,9 +14,16 @@ export default {
   name: 'OrgChartNode',
   components: {
   },
+  inject: ['nodeObj'],
   props: {
     node: {
       required: true
+    }
+  },
+  methods: {
+    handleNode () {
+      this.nodeObj.value = '123'
+      console.log(this.nodeObj)
     }
   }
 }
