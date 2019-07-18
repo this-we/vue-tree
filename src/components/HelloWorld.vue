@@ -1,14 +1,14 @@
 <template>
   <div>
-    <nodeTree :treeData='testData' ref='helloworld'></nodeTree>
+    <OrgChart :treeData = "testData"></OrgChart>
   </div>
 </template>
 <script>
-import nodeTree from './tree/OrgChart'
+import OrgChart from './tree/OrgChart'
 
 export default {
   components: {
-    nodeTree
+    OrgChart
   },
   provide: {
     nodeObj: { value: 'hhhh' }
@@ -88,5 +88,10 @@ export default {
       ]
     }
   }
+  // methods: {
+  //   handleClick: function (node) {
+  //     alert(node.label)
+  //   }
+  // }
 }
 </script>
