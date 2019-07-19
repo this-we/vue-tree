@@ -1,14 +1,15 @@
 <template>
   <div class="org-chart-node">
-<<<<<<< HEAD
-    <div class="org-chart-node-label" @click='handleNode'>
-=======
-    <div
-      class="org-chart-node-label" 
-      @click="clickNode">
->>>>>>> 3e3d617a3ffab2a96c613961246cfe1ce85d1892
-      {{ node.label }}
-    </div>
+      <div class="org-chart-node-label" @click="clickNode">
+        <Dropdown trigger="contextMenu">
+          <a href="javascript:void(0)">{{ node.label }}</a>
+          <DropdownMenu slot="list">
+            <DropdownItem>详情</DropdownItem>
+            <DropdownItem>编辑</DropdownItem>
+            <DropdownItem style="color: #ed4014">删除</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
     <div class="org-chart-node-children" v-if="node.children.length > 0">
       <OrgChartNode
         v-for="(childNode, index) in node.children"
@@ -32,9 +33,13 @@
         <Radio label="member">
             <span>成员</span>
         </Radio>
-    </RadioGroup>
+      </RadioGroup>
+      <div>
+        <Input v-model="value.id" placeholder="输入节点ID" style="width: 300px"></Input>
+        <Input v-model="value.label" placeholder="输入节点名称" style="width: 300px"></Input>
+      </div>
     </Modal>
-    <addTeam v-model="isTeamshow"></addTeam>
+    <addTeam v-model="isTeamShow"></addTeam>
   </div>
 </template>
 
@@ -46,8 +51,13 @@ export default {
   data () {
     return {
       isShowModal: false,
-      isTeamshow: false,
-      nodeType: ''
+      isTeamShow: true,
+      nodeType: '',
+      value: {
+        id: '',
+        label: '',
+        children: []
+      }
     }
   },
   components: {
@@ -60,25 +70,22 @@ export default {
     }
   },
   methods: {
-<<<<<<< HEAD
-    handleNode () {
-      this.nodeObj.value = '123'
-      console.log(this.nodeObj)
-=======
     clickNode: function (event) {
       this.isShowModal = true
     },
     ok () {
-      this.$Message.info('Clicked ok')
-      console.log(this.nodeType)
-      this.addChildren(this.nodeType)
+      this.addChildren(this.nodeType,this.value)
     },
     cancel () {
       this.$Message.info('Clicked cancel')
     },
-    addChildren: function (nodeType) {
-      console.log(nodeType + "添加子节点")
->>>>>>> 3e3d617a3ffab2a96c613961246cfe1ce85d1892
+    addChildren: function (nodeType,value) {
+      this.$set(this.node.children, this.node.children.length, this.value)
+      // 判断添加的节点的类型显示对应的Modal
+      // if (nodeType === 'team') {
+      //   alert("hhhhhhhhh")
+
+      // }
     }
   }
 }
@@ -140,7 +147,7 @@ right connector from last child*/
   }
   /*Adding back the vertical connector to the last nodes*/
   .org-chart-node:last-child::before {
-    border-right: 1px solid #ccc;
+    border-right: 1px solid red;
     border-radius: 0 5px 0 0;
     -webkit-border-radius: 0 5px 0 0;
     -moz-border-radius: 0 5px 0 0;
@@ -161,7 +168,7 @@ right connector from last child*/
     height: 20px;
   }
   .org-chart-node-label {
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+    box-shadow: 0 2px 5px 0 rgba(65, 57, 57, 0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
     display: inline-block;
     padding: 10px;
     margin: 0px;
